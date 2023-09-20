@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<style>
+    body {
+        background-color: #f4f4f4;
+        font-family: "Arial", sans-serif;
+        height: 100vh;
+    }
+
+    .container {
+        padding: 2rem;
+    }
+
+    .table {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .table th, .table td {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .table th {
+        background-color: #f8f8f8;
+    }
+
+    .table th, .table td {
+        border: none;
+        padding: 1rem;
+    }
+
+    .table img.img-thumbnail {
+        max-width: 100px;
+        height: auto;
+    }
+
+    .btn-danger {
+        background-color: #d9534f;
+        border-color: #d9534f;
+        color: #fff;
+    }
+
+    .btn-danger:hover {
+        background-color: #c9302c;
+        border-color: #c12e2a;
+    }
+</style>
+<body>
+    <div class="container mt-4">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Genre</th>
+                    <th>Description</th>
+                    <th>Cover Image</th>
+                    <th>ISBN</th>
+                    <th>Publication Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in collection %}
+                <tr>
+                    <td>{{ book[1] }}</td>
+                    <td>{{ book[2] }}</td>
+                    <td>{{ book[3] }}</td>
+                    <td>{% if book[4]|length > 30 %}
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#descriptionCollapse{{ loop.index }}">Show More</button>
+                        <div id="descriptionCollapse{{ loop.index }}" class="collapse">
+                    {% endif %}
+                    {{ book[4] }}
+                    </div>
+                    </td>
+                    <td><img src="{{ book[5] }}" alt="Cover Image" width="100" class="img-thumbnail"></td>
+                    <td>{{ book[6] }}</td>
+                    <td>{{ book[7] }}</td>
+                    <td>
+                        <form action="/delete_book" method="post">
+                            <input type="hidden" name="isbn" value="{{ book[6] }}">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

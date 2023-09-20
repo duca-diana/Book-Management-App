@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Inventory</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: "Cooperplate", Times, fantasy;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4; 
+        }
+
+        .header {
+            background-color: #000;
+            color: #fff;
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            text-transform: uppercase;
+            margin: 0;
+            letter-spacing: 3px;
+        }
+
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: transparent; 
+            border: none; 
+            border-radius: 25px;
+            padding: 10px; 
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            margin: 30px auto;
+            max-width: 600px;
+        }
+
+        input[type="text"] {
+            border: none;
+            border-radius: 25px 0 0 25px;
+            padding: 10px; 
+            width: 60%; 
+            font-size: 1.2em;
+            outline: none;
+        }
+
+        .search-btn {
+            background-color: #000;
+            color: #fff;
+            border: none;
+            border-radius: 0 25px 25px 0;
+            padding: 10px 20px; 
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-btn:hover {
+            background-color: #333;
+        }
+
+        iframe {
+            width: 100%;
+            height: calc(100vh - 150px); 
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    {% if not current_user.is_authenticated %}
+    <div class="alert alert-warning" role="alert">
+        Please <a href="{{ url_for('login') }}">log in</a> or <a href="{{ url_for('register') }}">register</a> to access the content.
+    </div>
+    {% endif %}
+    <div class="header">
+        <h1>Book Inventory</h1>
+        <div class="search-bar">
+            <form method="post" action="/search_books">
+                <input type="text" name="search_query" placeholder="Search">
+                <button type="submit" class="search-btn">Go</button>
+            </form>
+        </div>
+    {% if current_user.is_authenticated %}
+    <a href="/logout" class="btn btn-danger">Logout</a>
+    {% endif %}
+    </div>
+    <iframe src="/collection" frameborder="0"></iframe>
+</body>
+</html>
